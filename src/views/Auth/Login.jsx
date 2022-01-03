@@ -13,6 +13,7 @@ export default function Login() {
 
   // The `from` property of `location.state` gives us
   // the URL to redirect to after logging in.
+  //This line takes the user to their original desired page after login
   const { from } = location.state || { from: { pathname: '/' } };
 
   const handleLogin = (event) => {
@@ -21,10 +22,15 @@ export default function Login() {
 
     // TODO: If login was unsuccessful, set an error with a message
     // to display to the user that their login failed.
-    //
+    if(!loginWasSuccessful) {
+      return new Error('Invalid credentials');
     // If login was successful, use the history hook
     // from React Router to replace the current URL with the URL
     // we need to redirect to.
+    } else {
+      history.replace(from);
+    }
+    //
     // See https://v5.reactrouter.com/web/api/history for the appropriate method to use
   };
 
@@ -32,17 +38,21 @@ export default function Login() {
     <>
       <h3>You must log in to view the page at {from.pathname}</h3>
       <form onSubmit={handleLogin} className={styles.loginForm}>
-        <label>Email</label>
+        <label htmlFor='email'>Email</label>
         <input
           id="email"
           name="email"
           type="email"
+          value={formState.email}
+          onChange={(value) => handleFormChange(value)}
         />{' '}
-        <label>Password</label>
+        <label htmlFor='password'>Password</label>
         <input
           id="password"
           name="password"
           type="password"
+          value={formState.password}
+          onChange={(value) => handleFormChange(value)}
         />
         <button type="submit" aria-label="Sign In">
           Sign in
