@@ -20,19 +20,17 @@ export default function Login() {
     event.preventDefault();
     const loginWasSuccessful = auth.login(formState.email, formState.password);
 
-    // TODO: If login was unsuccessful, set an error with a message
-    // to display to the user that their login failed.
     if(!loginWasSuccessful) {
-      return new Error('Invalid credentials');
-    // If login was successful, use the history hook
-    // from React Router to replace the current URL with the URL
-    // we need to redirect to.
+        setError('Invalid Credentials, form is case sensitive')
     } else {
       history.replace(from);
     }
-    //
-    // See https://v5.reactrouter.com/web/api/history for the appropriate method to use
   };
+
+  const handleHelp = (e) => {
+    // e.preventDefault();
+    history.push('./help')
+  }
 
   return (
     <>
@@ -58,7 +56,12 @@ export default function Login() {
           Sign in
         </button>
       </form>
-      {error && <h4 className={styles.error}>{error}</h4>}
+      {error &&
+      <> 
+        <h4 className={styles.error}>{error}</h4>
+        <button onClick={() => handleHelp()}>Need help logging in?</button>
+      </>
+      }
     </>
   );
 }
