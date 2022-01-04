@@ -6,6 +6,7 @@ import Home from './views/Home/Home';
 import Treehouse from './views/Treehouse/Treehouse';
 import styles from './App.css';
 import TreehouseMembers from './views/Treehouse/TreehouseMembers';
+import HelpView from './views/Help/Help';
 
 export default function App() {
   return (
@@ -19,9 +20,12 @@ export default function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/treehouse/members">
-              <TreehouseMembers />
+            <Route path="/help">
+              <HelpView />
             </Route>
+            <PrivateRoute path="/treehouse/members">
+              <TreehouseMembers />
+            </PrivateRoute>
             <PrivateRoute path="/treehouse">
               <Treehouse />
             </PrivateRoute>

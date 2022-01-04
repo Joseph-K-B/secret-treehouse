@@ -59,3 +59,6 @@ it('should allow the user to log in', async () => {
     screen.getByText('Welcome to the Secret Treehouse!');
   });
 });
+
+
+// useNavigate(to, { replace: true })

@@ -13,42 +13,54 @@ export default function Login() {
 
   // The `from` property of `location.state` gives us
   // the URL to redirect to after logging in.
+  //This line takes the user to their original desired page after login
   const { from } = location.state || { from: { pathname: '/' } };
 
   const handleLogin = (event) => {
     event.preventDefault();
     const loginWasSuccessful = auth.login(formState.email, formState.password);
 
-    // TODO: If login was unsuccessful, set an error with a message
-    // to display to the user that their login failed.
-    //
-    // If login was successful, use the history hook
-    // from React Router to replace the current URL with the URL
-    // we need to redirect to.
-    // See https://v5.reactrouter.com/web/api/history for the appropriate method to use
+    if(loginWasSuccessful) {
+      history.replace(from);
+    } else {
+      setError('Invalid Credentials, form is case sensitive');
+    }
   };
+
+  const handleHelp = () => {
+    history.push('./help');
+  }
 
   return (
     <>
       <h3>You must log in to view the page at {from.pathname}</h3>
       <form onSubmit={handleLogin} className={styles.loginForm}>
-        <label>Email</label>
+        <label htmlFor='email'>Email</label>
         <input
           id="email"
           name="email"
           type="email"
+          value={formState.email}
+          onChange={(value) => handleFormChange(value)}
         />{' '}
-        <label>Password</label>
+        <label htmlFor='password'>Password</label>
         <input
           id="password"
           name="password"
           type="password"
+          value={formState.password}
+          onChange={(value) => handleFormChange(value)}
         />
         <button type="submit" aria-label="Sign In">
           Sign in
         </button>
       </form>
-      {error && <h4 className={styles.error}>{error}</h4>}
+      {error &&
+      <> 
+        <h4 className={styles.error}>{error}</h4>
+        <button onClick={() => handleHelp()}>Need help logging in?</button>
+      </>
+      }
     </>
   );
 }
