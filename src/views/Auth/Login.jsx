@@ -20,16 +20,15 @@ export default function Login() {
     event.preventDefault();
     const loginWasSuccessful = auth.login(formState.email, formState.password);
 
-    if(!loginWasSuccessful) {
-        setError('Invalid Credentials, form is case sensitive')
-    } else {
+    if(loginWasSuccessful) {
       history.replace(from);
+    } else {
+      setError('Invalid Credentials, form is case sensitive');
     }
   };
 
-  const handleHelp = (e) => {
-    // e.preventDefault();
-    history.push('./help')
+  const handleHelp = () => {
+    history.push('./help');
   }
 
   return (
